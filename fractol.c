@@ -102,8 +102,6 @@ void    fractal_render(t_fractal *fractal)
         while (++x < WIDTH)
         {
             handle_pixel(x, y, fractal);
-            // printf("x = %d ---- y = %d\n", x, y);
-            // my_mlx_pixel_put(&fractal->img, x, y, CYAN);
         }
         
     }
@@ -153,14 +151,13 @@ int main (int argc, char **argv)
     t_fractal   fractal;
     fractal.name = argv[1];
     fractal.escape_value = 4;
-    fractal.iterations = 100;
+    fractal.iterations = 18;
     fractal.shift_x = 0.0;
     fractal.shift_y = 0.0;
     fractal.zoom = 1.0;
     fractal.range = 3.0;
     fractal.palette_index = 0;
     set_palette(0xffd900, 0x191971, 0xffd900, &fractal);
-    // fractal.palette = NULL;
     printf("fractal name : %s\n", fractal.name);
     if ((argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10)) 
     || (argc == 2 && !ft_strncmp(argv[1], "burning_ship", 12))
