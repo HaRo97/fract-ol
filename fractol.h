@@ -43,6 +43,18 @@ typedef struct  s_img
     int     endian;
 }               t_img;
 
+typedef struct s_color {
+    int red;
+    int green;
+    int blue;
+} t_color;
+
+typedef struct s_palette {
+    int complementary;
+    int start;
+    int end;
+} t_palette;
+
 typedef struct  s_fractal
 {
     char    *name;
@@ -57,6 +69,9 @@ typedef struct  s_fractal
     double  range;
     double  julia_x;
     double  julia_y;
+    t_color palette_shades[40];
+    t_palette     palette;
+    int     palette_index;
 }               t_fractal;
 
 typedef struct  s_complex_num
@@ -68,8 +83,23 @@ typedef struct  s_complex_num
 
 
 
+
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 double	ft_atod(const char *str);
+t_complex_num complex_num_sum(t_complex_num z1, t_complex_num z2);
+t_complex_num complex_num_square(t_complex_num z); 
+t_complex_num complex_mp_num(t_complex_num z, double num);
+t_complex_num complex_minus_complex(t_complex_num z, t_complex_num z2);
+t_complex_num complex_plus_num(t_complex_num z, double num);
+int destroy_handler(t_fractal *fractal);
+int mousedown_handler(int button, int x, int y, t_fractal *fractal);
+int keydown_handler(int keycode, t_fractal *fractal);
+void    fractal_render(t_fractal *fractal);
+int interpolate(int start, int end, int steps, int return_index);
+void set_palette(int complementary, int start, int end, t_fractal *fractal);
+void change_palette(t_fractal *fractal);
+
 
 #endif
