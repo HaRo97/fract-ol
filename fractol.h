@@ -100,6 +100,7 @@ void    fractal_render(t_fractal *fractal);
 int interpolate(int start, int end, int steps, int return_index);
 void set_palette(int complementary, int start, int end, t_fractal *fractal);
 void change_palette(t_fractal *fractal);
+int parsing(int argc, char **argv, t_fractal *fractal);
 
 
 #endif

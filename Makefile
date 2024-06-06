@@ -1,6 +1,6 @@
 CC = cc
 NAME = fractol
-SRC = fractol.c string_utils.c maths_utils.c events_utils.c color_utils.c
+SRC = fractol.c string_utils.c maths_utils.c events_utils.c color_utils.c parsing.c
 OBJ = $(SRC:.c=.o)
 # CFLAGS = -Wall -Wextra -Werror -Imlx
 LFLAGS = -lmlx -framework OpenGL -framework AppKit
