@@ -42,14 +42,42 @@ void burningship_fractal(t_complex_num *z, t_fractal *fractal, int *color, int *
         if ((z->real * z->real) + (z->imaginary * z->imaginary) > fractal->escape_value)
         {
             *color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
-            my_mlx_pixel_put(&fractal->img, x, y, *color);
+            my_mlx_pixel_put(&fractal->img, *x, *y, *color);
         }
         i++;
     }
     
 }
 
-void handle_pixel(int x, int y, t_fractal *fractal)
+void phoenix_fractal(t_complex_num *z, t_fractal *fractal, int *color, int *x, int *y)
+{
+    int i;
+    t_complex_num tmp; 
+    t_complex_num tmp2;
+
+    tmp.real = 0;
+    tmp.imaginary = 0;
+    tmp2.real = 0;
+    tmp2.imaginary = 0;
+    i = 0;
+    while (i < fractal->iterations)
+    {
+        tmp2 = *z;
+        *z = complex_minus_complex(complex_num_square(*z),complex_mp_num(tmp, 0.5));
+        z->real = z->real + 0.56667;
+        tmp = tmp2;
+        tmp2 = *z;
+        if ((z->real * z->real) + (z->imaginary * z->imaginary) > fractal->escape_value)
+        {
+            *color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            my_mlx_pixel_put(&fractal->img, *x, *y, *color);
+        }
+        i++;
+    }
+
+}
+
+void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
 {
     t_complex_num   z;
     t_complex_num   c;
@@ -70,22 +98,22 @@ void handle_pixel(int x, int y, t_fractal *fractal)
     i = 0;
     while (i < fractal->iterations)
     {
-        if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
-        {
-            if (z.real < 0)
-                z.real = -z.real;
-            if(z.imaginary < 0)
-                z.imaginary = -z.imaginary;  
-        }
-        if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
-        {
-            tmp2 = z;
-            z = complex_minus_complex(complex_num_square(z),complex_mp_num(tmp, 0.5));
-            z.real = z.real + 0.56667;
-            tmp = tmp2;
-            tmp2 = z;
-        }
-        else
+        // if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
+        // {
+        //     if (z.real < 0)
+        //         z.real = -z.real;
+        //     if(z.imaginary < 0)
+        //         z.imaginary = -z.imaginary;  
+        // }
+        // if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
+        // {
+        //     tmp2 = z;
+        //     z = complex_minus_complex(complex_num_square(z),complex_mp_num(tmp, 0.5));
+        //     z.real = z.real + 0.56667;
+        //     tmp = tmp2;
+        //     tmp2 = z;
+        // }
+        // else
             z = complex_num_sum(complex_num_square(z), c);
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
@@ -108,6 +136,14 @@ void    fractal_render(t_fractal *fractal)
         x = -1;
         while (++x < WIDTH)
         {
+            // if(ft_strncmp(fractal->name, "mandelbrot", 10) == 0)
+            //     handle_pixel_mandelbrot(x, y, fractal);
+            // else if(ft_strncmp(fractal->name, "julia", 5) == 0)
+            //     handle_pixel_mandelbrot(x, y, fractal);
+            // else if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
+            //     burningship_fractal(&z, fractal, &color, &x, &y);
+            // else if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
+            //     phoenix_fractal(&z, fractal, &color, &x, &y);
             handle_pixel(x, y, fractal);
         }
         
