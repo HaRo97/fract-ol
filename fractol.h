@@ -67,6 +67,10 @@ typedef struct  s_fractal
     double  shift_y;
     double  zoom;
     double  range;
+	double  start_x;
+	double  start_y;
+	double  end_x;
+	double  end_y;
     double  julia_x;
     double  julia_y;
     t_color palette_shades[40];

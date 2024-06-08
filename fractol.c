@@ -6,14 +6,17 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:31:07 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/08 01:52:53 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/08 20:39:51 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-double scale(double num, double new_min, double new_max, double old_min, double old_max)
+double scale(double num, double new_min, double new_max, double old_max)
 {
+	double old_min;
+
+	old_min = 0;
     return (new_max - new_min) * (num - old_min) / (old_max - old_min) + new_min;
 }
 
@@ -32,8 +35,8 @@ void handle_pixel_burningship(int x, int y, t_fractal *fractal)
     int i;
     int color;
 
-    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
-    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    z.real = (scale(x, -2, 2, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -2, 2, HEIGHT) * fractal->zoom) + fractal->shift_y;
     c.real = z.real;
     c.imaginary = z.imaginary;
     i = 0;
@@ -46,9 +49,8 @@ void handle_pixel_burningship(int x, int y, t_fractal *fractal)
         z = complex_num_sum(complex_num_square(z), c);
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
-            my_mlx_pixel_put(&fractal->img, x, y, color);
-            return ;
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, fractal->iterations));
+            return (my_mlx_pixel_put(&fractal->img, x, y, color));
         }
         i++;
     }
@@ -64,8 +66,8 @@ void handle_pixel_phoenix(int x, int y, t_fractal *fractal)
     t_complex_num   tmp2;
 
     (1 && (tmp.real = 0, tmp.imaginary = 0, tmp2.real = 0, tmp2.imaginary = 0));
-    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
-    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    z.real = (scale(x, -2, 2, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -2, 2, HEIGHT) * fractal->zoom) + fractal->shift_y;
     i = 0;
     while (i < fractal->iterations)
     {
@@ -76,9 +78,8 @@ void handle_pixel_phoenix(int x, int y, t_fractal *fractal)
         tmp2 = z;
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
-            my_mlx_pixel_put(&fractal->img, x, y, color);
-            return ;
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, fractal->iterations));
+            return (my_mlx_pixel_put(&fractal->img, x, y, color));
         }
         i++;
     }
@@ -92,8 +93,8 @@ void handle_pixel_julia(int x, int y, t_fractal *fractal)
     int             i;
     int             color;
 
-    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
-    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    z.real = (scale(x, -2, 2, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -2, 2, HEIGHT) * fractal->zoom) + fractal->shift_y;
     c.real = fractal->julia_x;
     c.imaginary = fractal->julia_y;
     i = 0;
@@ -102,7 +103,7 @@ void handle_pixel_julia(int x, int y, t_fractal *fractal)
         z = complex_num_sum(complex_num_square(z), c);
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, fractal->iterations));
             my_mlx_pixel_put(&fractal->img, x, y, color);
             return;
         }
@@ -118,8 +119,8 @@ void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
     int             i;
     int             color;
 
-    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
-    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    z.real = (scale(x, fractal->start_x, fractal->end_x, WIDTH)) + fractal->shift_x;
+    z.imaginary = (scale(y, fractal->start_y, fractal->end_x, HEIGHT)) + fractal->shift_y;
     c.real = z.real;
     c.imaginary = z.imaginary;
     i = 0;
@@ -128,7 +129,7 @@ void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
         z = complex_num_sum(complex_num_square(z), c);
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, fractal->iterations));
             my_mlx_pixel_put(&fractal->img, x, y, color);
             return;
         }
@@ -157,7 +158,6 @@ void    fractal_render(t_fractal *fractal)
                 handle_pixel_burningship(x, y, fractal);
             else if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
                 handle_pixel_phoenix(x, y, fractal);
-            // handle_pixel(x, y, fractal);
         }
         
     }
@@ -212,7 +212,11 @@ int main (int argc, char **argv)
     fractal.shift_x = 0.0;
     fractal.shift_y = 0.0;
     fractal.zoom = 1.0;
-    fractal.range = 3.0;
+    fractal.range = 4.0;
+	fractal.start_x = -2;
+	fractal.start_y = -2;
+	fractal.end_x = 2;
+	fractal.end_y = 2;
     fractal.palette_index = 0;
     set_palette(0xffd900, 0x191971, 0xffd900, &fractal);
     parsingSuccess = parsing(argc, argv, &fractal);
@@ -225,7 +229,6 @@ int main (int argc, char **argv)
         event_init(&fractal);
         mlx_loop(&fractal.mlx_connection);
     }
-    
 }
 
 
