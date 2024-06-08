@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:31:07 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/08 01:31:14 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/08 01:52:53 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ void handle_pixel_phoenix(int x, int y, t_fractal *fractal)
     t_complex_num   tmp; 
     t_complex_num   tmp2;
 
-    tmp.real = 0;
-    tmp.imaginary = 0;
-    tmp2.real = 0;
-    tmp2.imaginary = 0;
+    (1 && (tmp.real = 0, tmp.imaginary = 0, tmp2.real = 0, tmp2.imaginary = 0));
     z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
     z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
     i = 0;
