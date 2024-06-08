@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fractol.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/08 01:31:07 by hrochd            #+#    #+#             */
+/*   Updated: 2024/06/08 01:31:14 by hrochd           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fractol.h"
 
@@ -14,67 +25,93 @@ void    my_mlx_pixel_put(t_img *img, int x, int y, int color)
     *(unsigned int *)(img->addr + offset) = color;
 }
 
-void    mandelbrot_julia_switch(t_complex_num *z, t_complex_num *c, t_fractal *fractal)
+void handle_pixel_burningship(int x, int y, t_fractal *fractal)
 {
-    if(ft_strncmp(fractal->name, "julia", 5) == 0)
-    {
-        c->real = fractal->julia_x;
-        c->imaginary = fractal->julia_y;
-    }
-    else
-    {
-        c->real = z->real;
-        c->imaginary = z->imaginary;
-    }
-}
-
-void burningship_fractal(t_complex_num *z, t_fractal *fractal, int *color, int *x, int *y)
-{
+    t_complex_num   z;
+    t_complex_num   c;
     int i;
+    int color;
 
+    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    c.real = z.real;
+    c.imaginary = z.imaginary;
     i = 0;
-    while (i < fractal->iterations)
+    while(i < fractal->iterations)
     {
-        if (z->real < 0)
-            z->real = -z->real;
-        if(z->imaginary < 0)
-            z->imaginary = -z->imaginary;  
-        if ((z->real * z->real) + (z->imaginary * z->imaginary) > fractal->escape_value)
+        if (z.real < 0)
+            z.real = -z.real;
+        if(z.imaginary < 0)
+            z.imaginary = -z.imaginary;
+        z = complex_num_sum(complex_num_square(z), c);
+        if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            *color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
-            my_mlx_pixel_put(&fractal->img, *x, *y, *color);
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            my_mlx_pixel_put(&fractal->img, x, y, color);
+            return ;
         }
         i++;
     }
-    
+    my_mlx_pixel_put(&fractal->img, x, y, fractal->palette.complementary);
 }
 
-void phoenix_fractal(t_complex_num *z, t_fractal *fractal, int *color, int *x, int *y)
+void handle_pixel_phoenix(int x, int y, t_fractal *fractal)
 {
-    int i;
-    t_complex_num tmp; 
-    t_complex_num tmp2;
+    t_complex_num   z;
+    int             i;
+    int             color;
+    t_complex_num   tmp; 
+    t_complex_num   tmp2;
 
     tmp.real = 0;
     tmp.imaginary = 0;
     tmp2.real = 0;
     tmp2.imaginary = 0;
+    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
     i = 0;
     while (i < fractal->iterations)
     {
-        tmp2 = *z;
-        *z = complex_minus_complex(complex_num_square(*z),complex_mp_num(tmp, 0.5));
-        z->real = z->real + 0.56667;
+        tmp2 = z;
+        z = complex_minus_complex(complex_num_square(z),complex_mp_num(tmp, 0.5));
+        z.real = z.real + 0.56667;
         tmp = tmp2;
-        tmp2 = *z;
-        if ((z->real * z->real) + (z->imaginary * z->imaginary) > fractal->escape_value)
+        tmp2 = z;
+        if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
-            *color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
-            my_mlx_pixel_put(&fractal->img, *x, *y, *color);
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            my_mlx_pixel_put(&fractal->img, x, y, color);
+            return ;
         }
         i++;
     }
+    my_mlx_pixel_put(&fractal->img, x, y, fractal->palette.complementary);
+}
 
+void handle_pixel_julia(int x, int y, t_fractal *fractal)
+{
+    t_complex_num   z;
+    t_complex_num   c;
+    int             i;
+    int             color;
+
+    z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
+    z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    c.real = fractal->julia_x;
+    c.imaginary = fractal->julia_y;
+    i = 0;
+    while (i < fractal->iterations)
+    {
+        z = complex_num_sum(complex_num_square(z), c);
+        if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
+        {
+            color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
+            my_mlx_pixel_put(&fractal->img, x, y, color);
+            return;
+        }
+        i++;
+    }
+    my_mlx_pixel_put(&fractal->img, x, y, fractal->palette.complementary);
 }
 
 void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
@@ -83,47 +120,26 @@ void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
     t_complex_num   c;
     int             i;
     int             color;
-    t_complex_num   tmp; 
-    t_complex_num   tmp2;
 
     z.real = (scale(x, -2, 1, 0, WIDTH) * fractal->zoom) + fractal->shift_x;
     z.imaginary = (scale(y, -1.5, 1.5, 0, HEIGHT) * fractal->zoom) + fractal->shift_y;
-
-    mandelbrot_julia_switch(&z, &c, fractal);
-    
-    tmp.real = 0;
-    tmp.imaginary = 0;
-    tmp2.real = 0;
-    tmp2.imaginary = 0;
+    c.real = z.real;
+    c.imaginary = z.imaginary;
     i = 0;
     while (i < fractal->iterations)
     {
-        // if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
-        // {
-        //     if (z.real < 0)
-        //         z.real = -z.real;
-        //     if(z.imaginary < 0)
-        //         z.imaginary = -z.imaginary;  
-        // }
-        // if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
-        // {
-        //     tmp2 = z;
-        //     z = complex_minus_complex(complex_num_square(z),complex_mp_num(tmp, 0.5));
-        //     z.real = z.real + 0.56667;
-        //     tmp = tmp2;
-        //     tmp2 = z;
-        // }
-        // else
-            z = complex_num_sum(complex_num_square(z), c);
+        z = complex_num_sum(complex_num_square(z), c);
         if ((z.real * z.real) + (z.imaginary * z.imaginary) > fractal->escape_value)
         {
             color = interpolate(fractal->palette.start, fractal->palette.end, 40, (int)scale(i, 0, 39, 0, fractal->iterations));
             my_mlx_pixel_put(&fractal->img, x, y, color);
+            return;
         }
         i++;
     }
     my_mlx_pixel_put(&fractal->img, x, y, fractal->palette.complementary);
 }
+
 
 void    fractal_render(t_fractal *fractal)
 {
@@ -136,15 +152,15 @@ void    fractal_render(t_fractal *fractal)
         x = -1;
         while (++x < WIDTH)
         {
-            // if(ft_strncmp(fractal->name, "mandelbrot", 10) == 0)
-            //     handle_pixel_mandelbrot(x, y, fractal);
-            // else if(ft_strncmp(fractal->name, "julia", 5) == 0)
-            //     handle_pixel_mandelbrot(x, y, fractal);
-            // else if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
-            //     burningship_fractal(&z, fractal, &color, &x, &y);
-            // else if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
-            //     phoenix_fractal(&z, fractal, &color, &x, &y);
-            handle_pixel(x, y, fractal);
+            if(ft_strncmp(fractal->name, "mandelbrot", 10) == 0)
+                handle_pixel_mandelbrot(x, y, fractal);
+            else if(ft_strncmp(fractal->name, "julia", 5) == 0)
+                handle_pixel_julia(x, y, fractal);
+            else if(ft_strncmp(fractal->name, "burning_ship", 12) == 0)
+                handle_pixel_burningship(x, y, fractal);
+            else if(ft_strncmp(fractal->name, "phoenix", 7) == 0)
+                handle_pixel_phoenix(x, y, fractal);
+            // handle_pixel(x, y, fractal);
         }
         
     }
@@ -206,12 +222,12 @@ int main (int argc, char **argv)
     if (parsingSuccess == 0)
         return (EXIT_FAILURE);
     else
-        {
-            fractal_init(&fractal);
-            fractal_render(&fractal);
-            event_init(&fractal);
-            mlx_loop(&fractal.mlx_connection);
-        }
+    {
+        fractal_init(&fractal);
+        fractal_render(&fractal);
+        event_init(&fractal);
+        mlx_loop(&fractal.mlx_connection);
+    }
     
 }
 

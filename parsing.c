@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 17:05:35 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/06 21:10:49 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/07 23:56:13 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int parsing(int argc, char **argv, t_fractal *fractal)
 {
-    printf("fractal name : %s\n", fractal->name);
     if ((argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10)) 
     || (argc == 2 && !ft_strncmp(argv[1], "burning_ship", 12))
     || (argc == 2 && !ft_strncmp(argv[1], "phoenix", 7))
@@ -24,9 +23,7 @@ int parsing(int argc, char **argv, t_fractal *fractal)
         if (argc == 4)
         {
             fractal->julia_x = (ft_atod(argv[2]));
-            printf("julia real : %f\n", fractal->julia_x);
             fractal->julia_y = (ft_atod(argv[3]));
-            printf("julia imaginary : %f\n", fractal->julia_y);
         }
         return (1);
     }
