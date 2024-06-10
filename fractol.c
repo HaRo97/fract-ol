@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 01:31:07 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/10 01:41:50 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/10 21:01:21 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ void handle_pixel_mandelbrot(int x, int y, t_fractal *fractal)
     int             i;
     int             color;
 
-    z.real = (scale(x, fractal->start_x, fractal->end_x, WIDTH)* fractal->zoom) + fractal->shift_x;
-    z.imaginary = (scale(y, fractal->start_y, fractal->end_x, HEIGHT) * fractal->zoom) + fractal->shift_y;
+    z.real = (scale(x, fractal->start_x, fractal->end_x, WIDTH)) + fractal->shift_x;
+    z.imaginary = (scale(y, fractal->start_y, fractal->end_y, HEIGHT)) + fractal->shift_y;
     c.real = z.real;
     c.imaginary = z.imaginary;
     i = 0;

@@ -9,8 +9,8 @@
 
 #define ERROR_MSG "ERROR : Please enter \n\t\"./fractol mandelbrot\" or \n\t\"./fractol julia <real_part> <imaginary part>\"\n"
 
-#define WIDTH 1080
-#define HEIGHT 1080
+#define WIDTH 1080.0
+#define HEIGHT 1080.0
 
 #define BLACK   0x000000
 #define WHITE   0xFFFFFF

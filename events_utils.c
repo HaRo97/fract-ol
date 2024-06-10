@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:55:25 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/10 01:22:22 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/10 23:56:03 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,11 @@ int mousedown_handler(int button, int x, int y, t_fractal *fractal)
     if(button == 4)
     {
 		// fractal->zoom *= 0.95;
-		// fractal->zoom.start_x = fractal->zoom.start_x * ((WIDTH - x) / WIDTH);
-		// fractal->zoom.end_x = fractal->zoom.end_x * (x / WIDTH);
-		// fractal->zoom.start_y = fractal->zoom.start_y * (HEIGHT - y) / HEIGHT;
-		// fractal->zoom.end_y = fractal->zoom.end_y * (y / HEIGHT);
-		// // fractal->start_y = fractal->start_y * (y / HEIGHT);
-		// fractal->end_y = fractal->end_y * ((HEIGHT - y) / HEIGHT);
-        fractal->range /= 1.05;
+		fractal->start_x = fractal->start_x * (((WIDTH / 2) - (double)x) / (WIDTH / 2));
+		fractal->start_y = fractal->start_y * (((HEIGHT / 2) - (double)y) / (HEIGHT / 2));
+		fractal->end_x = fractal->end_x * ((double)x / (WIDTH / 2));
+		fractal->end_y = fractal->end_y * ((double)y / (HEIGHT / 2));
+        // fractal->range /= 1.05;
     }
     else if(button == 5)
     {
