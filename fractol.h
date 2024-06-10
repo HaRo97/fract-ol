@@ -55,6 +55,7 @@ typedef struct s_palette {
     int end;
 } t_palette;
 
+
 typedef struct  s_fractal
 {
     char    *name;
