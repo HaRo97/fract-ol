@@ -3,7 +3,7 @@ NAME = fractol
 SRC = fractol.c string_utils.c maths_utils.c events_utils.c color_utils.c parsing.c
 OBJ = $(SRC:.c=.o)
 # CFLAGS = -Wall -Wextra -Werror -Imlx
-LFLAGS = -lmlx -framework OpenGL -framework AppKit
+LFLAGS = -lmlx -framework OpenGL -framework AppKit -O3
 
 $(NAME): $(OBJ) fractol.h 
 	$(CC) $(OBJ) $(LFLAGS) -o $(NAME)
@@ -12,7 +12,7 @@ $(NAME): $(OBJ) fractol.h
 # %.o: %.c 
 # 	$(CC) $(CFLAGS) -c $< -o $@
 %.o: %.c 
-	$(CC) -c $< -o $@
+	$(CC) $(LFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)

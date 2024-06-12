@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:55:25 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/12 19:41:10 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/12 20:30:54 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int keydown_handler(int keycode, t_fractal *fractal)
     if (keycode == 124)
         fractal->shift_x += fractal->range / 8;
     if (keycode == 125)
-        fractal->shift_y -= fractal->range / 8;
-    if (keycode == 126)
         fractal->shift_y += fractal->range / 8;
+    if (keycode == 126)
+        fractal->shift_y -= fractal->range / 8;
     if (keycode == 69)
         fractal->iterations += 5;
     if (keycode == 78)
