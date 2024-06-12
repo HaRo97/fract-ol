@@ -106,6 +106,7 @@ int interpolate(int start, int end, int steps, int return_index);
 void set_palette(int complementary, int start, int end, t_fractal *fractal);
 void change_palette(t_fractal *fractal);
 int parsing(int argc, char **argv, t_fractal *fractal);
+double scale(double num, double new_min, double new_max, double old_max);
 
 
 #endif

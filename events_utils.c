@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:55:25 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/10 23:56:03 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:41:10 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,27 @@ int abs(int num)
 int mousedown_handler(int button, int x, int y, t_fractal *fractal)
 {
 	printf("button = %d, x = %d, y = %d\n", button, x, y);
+	double xplane;
+	double yplane;
+
+	xplane = (double)scale(x, fractal->start_x, fractal->end_x, WIDTH);
+	yplane = (double)scale(y, fractal->start_y, fractal->end_y, WIDTH);
     if(button == 4)
     {
 		// fractal->zoom *= 0.95;
-		fractal->start_x = fractal->start_x * (((WIDTH / 2) - (double)x) / (WIDTH / 2));
-		fractal->start_y = fractal->start_y * (((HEIGHT / 2) - (double)y) / (HEIGHT / 2));
-		fractal->end_x = fractal->end_x * ((double)x / (WIDTH / 2));
-		fractal->end_y = fractal->end_y * ((double)y / (HEIGHT / 2));
-        // fractal->range /= 1.05;
+		fractal->start_x = xplane - (xplane - fractal->start_x) * 0.9;
+		fractal->start_y = yplane - (yplane - fractal->start_y) * 0.9;
+		fractal->end_x = xplane + (fractal->end_x - xplane) * 0.9;
+		fractal->end_y = yplane + (fractal->end_y - yplane) * 0.9;
+        fractal->range *= 0.9;
     }
     else if(button == 5)
     {
-		// fractal->zoom *= 1.05;
-        // fractal->start_x *= 1.1 * ((double)WIDTH / (double)x);
-		// fractal->start_y *= 1.1 * ((double)HEIGHT / (double)y);
-        fractal->range *= 1.05;
+		fractal->start_x = xplane - (xplane - fractal->start_x) * 1.1;
+		fractal->start_y = yplane - (yplane - fractal->start_y) * 1.1;
+		fractal->end_x = xplane + (fractal->end_x - xplane) * 1.1;
+		fractal->end_y = yplane + (fractal->end_y - yplane) * 1.1;
+        fractal->range *= 1.1;
     }
     fractal_render(fractal);
     return 0;
