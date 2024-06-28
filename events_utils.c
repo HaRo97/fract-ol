@@ -6,11 +6,31 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 17:55:25 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/22 19:04:52 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:34:06 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+void	zoom(int keycode, t_fractal *fractal)
+{
+	if (keycode == 34)
+	{
+		fractal->start_x *= 0.9;
+		fractal->start_y *= 0.9;
+		fractal->end_x *= 0.9;
+		fractal->end_y *= 0.9;
+		fractal->range *= 0.9;
+	}
+	if (keycode == 31)
+	{
+		fractal->start_x *= 1.1;
+		fractal->start_y *= 1.1;
+		fractal->end_x *= 1.1;
+		fractal->end_y *= 1.1;
+		fractal->range *= 1.1;
+	}
+}
 
 int	destroy_handler(t_fractal *fractal)
 {
@@ -50,9 +70,9 @@ int	mousedown_handler(int button, int x, int y, t_fractal *fractal)
 int	keydown_handler(int keycode, t_fractal *fractal)
 {
 	if (keycode == 53)
-	{
 		destroy_handler(fractal);
-	}
+	if (keycode == 34 || keycode == 31)
+		zoom(keycode, fractal);
 	if (keycode == 123)
 		fractal->shift_x -= fractal->range / 8;
 	if (keycode == 124)
