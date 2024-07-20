@@ -6,7 +6,7 @@
 /*   By: hrochd <hrochd@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 19:05:32 by hrochd            #+#    #+#             */
-/*   Updated: 2024/06/22 21:27:36 by hrochd           ###   ########.fr       */
+/*   Updated: 2024/07/20 02:08:13 by hrochd           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 # include <unistd.h>
 # include <math.h>
 # include "mlx.h"
-
-# define ERROR_MSG "ERROR : Please enter \n\t\"./fractol (fractol name)\" \
-					or \n\t\"./fractol julia <real_part> <imaginary part>\"\n"
 
 # define WIDTH 1080.0
 # define HEIGHT 1080.0
@@ -80,7 +77,6 @@ typedef struct s_fractal
 	double		end_y;
 	double		julia_x;
 	double		julia_y;
-	t_color		palette_shades[40];
 	t_palette	palette;
 	int			palette_index;
 }	t_fractal;
