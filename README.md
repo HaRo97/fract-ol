@@ -28,13 +28,70 @@ The project demonstrates:
 - Pixel manipulation and graphics rendering
 - Mathematical visualization techniques
 
+## Dependencies
+
+This project requires the following dependencies:
+
+### System Requirements
+- **Operating System**: macOS (uses macOS-specific frameworks)
+- **Compiler**: GCC or Clang with C standard library
+- **Make**: GNU Make or compatible
+
+### Libraries and Frameworks
+- **MiniLibX** - Graphics library for basic graphical operations
+- **OpenGL Framework** - Graphics rendering (macOS)
+- **AppKit Framework** - macOS application framework
+
+### Installing Dependencies
+
+#### MiniLibX Installation
+
+If you're at 42 School, MiniLibX should already be available.  Otherwise:
+
+**Option 1: Clone from 42's repository**
+```bash
+git clone https://github.com/42Paris/minilibx-linux.git mlx
+cd mlx
+make
+```
+
+**Option 2: For macOS users**
+```bash
+git clone https://github.com/dannywillems/minilibx-mac-osx. git mlx
+cd mlx
+make
+```
+
+Then, you may need to update the Makefile to point to your MiniLibX installation path. 
+
+#### Xcode Command Line Tools (macOS)
+
+Ensure you have Xcode Command Line Tools installed for OpenGL and AppKit frameworks: 
+```bash
+xcode-select --install
+```
+
+### Verifying Dependencies
+
+To verify your setup: 
+```bash
+# Check compiler
+gcc --version
+# or
+clang --version
+
+# Check make
+make --version
+
+# Check if frameworks are available (macOS)
+ls /System/Library/Frameworks/ | grep -E "OpenGL|AppKit"
+```
+
 ## Instructions
 
 ### Prerequisites
 
-- **macOS** (the project uses macOS-specific frameworks:  OpenGL and AppKit)
-- **MiniLibX** library
-- **GCC** or **Clang** compiler
+Ensure all dependencies listed above are properly installed before proceeding.
 
 ### Compilation
 
@@ -94,7 +151,7 @@ Example:
 
 ### Controls
 
-Once the program is running, use these controls:
+Once the program is running, use these controls: 
 
 #### Keyboard Controls:
 - **ESC** - Exit the program
@@ -113,9 +170,9 @@ The program includes 11 different color palettes that you can cycle through by p
 
 ### Technical Details
 
-- **Window Size**: 800x800 pixels (configurable in fractol.h)
+- **Window Size**: 800x800 pixels (configurable in fractol. h)
 - **Default Iterations**: 18 (affects detail level)
-- **Escape Value**: 4 (mathematical constant for fractal calculations)
+- **Escape Value**:  4 (mathematical constant for fractal calculations)
 - **Rendering**: Uses MiniLibX for graphics, with custom pixel manipulation
 
 ## Project Structure
@@ -134,6 +191,22 @@ fract-ol/
 └── Makefile                   # Compilation rules
 ```
 
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: `mlx. h not found` during compilation
+- **Solution**: Ensure MiniLibX is installed and the path in the Makefile is correct
+
+**Issue**: Linking errors with OpenGL or AppKit
+- **Solution**: Install Xcode Command Line Tools:  `xcode-select --install`
+
+**Issue**: Program crashes on startup
+- **Solution**:  Check that you're using the correct command-line arguments
+
+**Issue**: Window doesn't appear
+- **Solution**: Ensure you have proper display permissions on macOS
+
 ## Learning Outcomes
 
 This project helps develop understanding of:
@@ -150,7 +223,7 @@ To learn more about fractals and the mathematics behind them:
 - [Mandelbrot Set - Wikipedia](https://en.wikipedia.org/wiki/Mandelbrot_set)
 - [Julia Set - Wikipedia](https://en.wikipedia.org/wiki/Julia_set)
 - [Burning Ship Fractal - Wikipedia](https://en.wikipedia.org/wiki/Burning_Ship_fractal)
-- [Complex Numbers - Khan Academy](https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89: complex)
+- [Complex Numbers - Khan Academy](https://www.khanacademy.org/math/algebra2/x2ec2f6f830c9fb89:complex)
 
 ---
 
